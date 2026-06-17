@@ -63,18 +63,22 @@ function contextSegment(input: StatuslineInput): string | null {
   return `${contextColor(ctx)}Ctx: ${formatTokens(ctx)}${suffix}${RESET}`;
 }
 
+function joinSegments(segments: Array<string | null>): string {
+  return segments.filter((segment): segment is string => Boolean(segment)).join(' | ');
+}
+
 export function renderStatusline(input: StatuslineInput): string {
   const cwd = input.workspace.current_dir || input.cwd || '';
 
-  const segments: Array<string | null> = [
-    `${YELLOW}Model: ${input.model.display_name}${RESET}`,
-    dirSegment(cwd),
+  const primary = joinSegments([
+    `Model: ${YELLOW}${input.model.display_name}${RESET}`,
     contextSegment(input),
-    gitSegment(cwd),
     quotaSegment('5h', input.rate_limits?.five_hour),
     quotaSegment('7d', input.rate_limits?.seven_day),
     costSegment(input.cost),
-  ];
+  ]);
 
-  return segments.filter((segment): segment is string => Boolean(segment)).join(' | ');
+  const secondary = joinSegments([dirSegment(cwd), gitSegment(cwd)]);
+
+  return [primary, secondary].filter(Boolean).join('\n');
 }
