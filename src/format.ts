@@ -16,6 +16,26 @@ export function formatTokens(tokens: number): string {
 }
 
 /**
+ * Formats a wall-clock duration in milliseconds into a compact human string,
+ * e.g. 4500 -> "4s", 92000 -> "1m", 3725000 -> "1h 2m".
+ */
+export function formatDuration(ms: number): string {
+  const seconds = Math.floor(ms / 1000);
+  if (seconds < 60) {
+    return `${seconds}s`;
+  }
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) {
+    return `${minutes}m`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+
+  return `${hours}h ${minutes % 60}m`;
+}
+
+/**
  * Maps a quota usage percentage (0-100) to an ANSI color escape code.
  * Applied to both the 5-hour and weekly quota segments so the user can see at
  * a glance how close they are to the limit.
