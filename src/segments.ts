@@ -1,7 +1,7 @@
 import {execFileSync} from 'child_process';
 import {RateLimitWindow, StatuslineInput} from './types';
 import {readContextTokens} from './context';
-import {DIM, RESET, formatTokens, usageColor} from './format';
+import {DIM, RESET, YELLOW, contextColor, formatTokens, usageColor} from './format';
 
 function gitSegment(cwd: string): string {
   try {
@@ -33,8 +33,8 @@ export function renderStatusline(input: StatuslineInput): string {
   const ctx = input.transcript_path ? readContextTokens(input.transcript_path) : null;
 
   const segments: Array<string | null> = [
-    `Model: ${input.model.display_name}`,
-    ctx !== null ? `Ctx: ${formatTokens(ctx)}` : null,
+    `${YELLOW}Model: ${input.model.display_name}${RESET}`,
+    ctx !== null ? `${contextColor(ctx)}Ctx: ${formatTokens(ctx)}${RESET}` : null,
     gitSegment(input.workspace.current_dir),
     quotaSegment('5h', input.rate_limits?.five_hour),
     quotaSegment('7d', input.rate_limits?.seven_day),
