@@ -1,0 +1,35 @@
+{
+  "name": "cc-statusline",
+  "version": "0.1.0",
+  "description": "Claude Code statusline showing 5-hour and weekly subscription quota usage",
+  "author": "sergeymanson <manson047@gmail.com> (https://github.com/sergeymanson)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergeymanson/cc-statusline.git"
+  },
+  "homepage": "https://github.com/sergeymanson/cc-statusline#readme",
+  "bugs": {
+    "url": "https://github.com/sergeymanson/cc-statusline/issues"
+  },
+  "bin": {
+    "cc-statusline": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.4.0"
+  }
+}
