@@ -1,7 +1,7 @@
 import {execFileSync} from 'child_process';
-import {RateLimitWindow, StatuslineInput} from './types';
+import {CostInfo, RateLimitWindow, StatuslineInput} from './types';
 import {readContextTokens} from './context';
-import {DIM, RESET, YELLOW, contextColor, formatTokens, usageColor} from './format';
+import {DIM, RESET, YELLOW, contextColor, formatDuration, formatTokens, usageColor} from './format';
 
 function gitSegment(cwd: string): string {
   try {
@@ -18,6 +18,28 @@ function gitSegment(cwd: string): string {
   }
 }
 
+function dirSegment(cwd: string): string | null {
+  const name = cwd.split('/').filter(Boolean).pop();
+
+  return name ? `${DIM}${name}${RESET}` : null;
+}
+
+function costSegment(cost?: CostInfo): string | null {
+  if (!cost) {
+    return null;
+  }
+
+  const parts: string[] = [];
+  if (typeof cost.total_cost_usd === 'number') {
+    parts.push(`$${cost.total_cost_usd.toFixed(2)}`);
+  }
+  if (typeof cost.total_duration_ms === 'number') {
+    parts.push(formatDuration(cost.total_duration_ms));
+  }
+
+  return parts.length ? `${DIM}${parts.join(' · ')}${RESET}` : null;
+}
+
 function quotaSegment(label: string, window?: RateLimitWindow): string | null {
   if (!window) {
     return null;
@@ -29,15 +51,29 @@ function quotaSegment(label: string, window?: RateLimitWindow): string | null {
   return `${color}${label}: ${pct}%${RESET}`;
 }
 
-export function renderStatusline(input: StatuslineInput): string {
+function contextSegment(input: StatuslineInput): string | null {
   const ctx = input.transcript_path ? readContextTokens(input.transcript_path) : null;
+  if (ctx === null) {
+    return null;
+  }
+
+  const pct = input.context_window?.used_percentage;
+  const suffix = typeof pct === 'number' ? ` (${Math.round(pct)}%)` : '';
+
+  return `${contextColor(ctx)}Ctx: ${formatTokens(ctx)}${suffix}${RESET}`;
+}
+
+export function renderStatusline(input: StatuslineInput): string {
+  const cwd = input.workspace.current_dir || input.cwd || '';
 
   const segments: Array<string | null> = [
     `${YELLOW}Model: ${input.model.display_name}${RESET}`,
-    ctx !== null ? `${contextColor(ctx)}Ctx: ${formatTokens(ctx)}${RESET}` : null,
-    gitSegment(input.workspace.current_dir),
+    dirSegment(cwd),
+    contextSegment(input),
+    gitSegment(cwd),
     quotaSegment('5h', input.rate_limits?.five_hour),
     quotaSegment('7d', input.rate_limits?.seven_day),
+    costSegment(input.cost),
   ];
 
   return segments.filter((segment): segment is string => Boolean(segment)).join(' | ');
