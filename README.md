@@ -1,6 +1,10 @@
 # cc-statusline
 
 [![npm](https://img.shields.io/npm/v/@dartchuk-s/cc-statusline)](https://www.npmjs.com/package/@dartchuk-s/cc-statusline)
+[![downloads](https://img.shields.io/npm/dm/@dartchuk-s/cc-statusline)](https://www.npmjs.com/package/@dartchuk-s/cc-statusline)
+[![license](https://img.shields.io/npm/l/@dartchuk-s/cc-statusline)](./LICENSE)
+[![node](https://img.shields.io/node/v/@dartchuk-s/cc-statusline)](https://nodejs.org)
+[![install size](https://packagephobia.com/badge?p=@dartchuk-s/cc-statusline)](https://packagephobia.com/result?p=@dartchuk-s/cc-statusline)
 
 A [Claude Code](https://claude.com/claude-code) status line that shows your model,
 current context size, git branch, and subscription quota usage (5-hour and weekly windows)
