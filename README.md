@@ -13,7 +13,7 @@ Quota segments are colour-coded: green below 50%, yellow at 50–79%, red at 80%
 ## Install
 
 ```bash
-npm install -g cc-statusline
+npm install -g @dartchuk-s/cc-statusline
 ```
 
 This installs the `cc-statusline` binary.
