@@ -7,15 +7,19 @@
 [![install size](https://packagephobia.com/badge?p=@dartchuk-s/cc-statusline)](https://packagephobia.com/result?p=@dartchuk-s/cc-statusline)
 
 A minimal, zero-config [Claude Code](https://claude.com/claude-code) status line that shows your
-model, working directory, context usage, git branch, subscription quota, and session cost — all in
-a single colour-coded line. No setup, no config file, no TUI: point Claude Code at it and it just
-works.
+model, working directory, context usage, git branch, subscription quota, and session cost — all
+colour-coded across two compact lines. No setup, no config file, no TUI: point Claude Code at it
+and it just works.
 
 Published on npm: [`@dartchuk-s/cc-statusline`](https://www.npmjs.com/package/@dartchuk-s/cc-statusline).
 
 ```
-Model: Opus 4.8 | cc-statusline | Ctx: 44.1k (22%) | ⎇ main | 5h: 23% | 7d: 61% | $0.42 · 12m
+Model: Opus 4.8 | Ctx: 44.1k (22%) | 5h: 23% | 7d: 61% | $0.42 · 12m
+cc-statusline | ⎇ main
 ```
+
+Model, context, quota and cost go on the first line; the working directory and git branch on the
+second.
 
 ## Features
 
@@ -27,7 +31,7 @@ Model: Opus 4.8 | cc-statusline | Ctx: 44.1k (22%) | ⎇ main | 5h: 23% | 7d: 61
 - **Quota** — 5-hour and weekly subscription usage, colour-coded (green < 50%, yellow 50–79%,
   red 80%+).
 - **Session cost** — estimated cost in USD and elapsed session time.
-- **Zero config** — a single static line, sensible colours, no settings to maintain. Any segment
+- **Zero config** — two static lines, sensible colours, no settings to maintain. Any segment
   without data is silently omitted.
 
 ## Configure Claude Code
