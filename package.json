@@ -7,6 +7,11 @@
     "type": "git",
     "url": "git+https://github.com/sergeymanson/cc-statusline.git"
   },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
   "homepage": "https://github.com/sergeymanson/cc-statusline#readme",
   "bugs": {
     "url": "https://github.com/sergeymanson/cc-statusline/issues"
@@ -17,10 +22,6 @@
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "npm run build"
-  },
   "engines": {
     "node": ">=24"
   },
